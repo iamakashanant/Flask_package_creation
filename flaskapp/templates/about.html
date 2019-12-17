@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block title %}
+
+	{% for UserData in UserData %}
+		<!-- passing Useremail  -->
+		<!-- passing Username  -->
+
+		<h3> {{UserData.username}}</h3>
+		<p>By {{UserData.useremail}}</p>
+
+
+	{% endfor %}
+{% endblock  title %}
+
