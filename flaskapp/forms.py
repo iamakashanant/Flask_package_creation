@@ -1,9 +1,8 @@
-from  wtforms import StringField , PasswordField , SubmitField, BooleanField  
-from wtforms.validators import DataRequired ,Length, Email, EqualTo , ValidationError
+from  wtforms import StringField , PasswordField , SubmitField, BooleanField ,TextAreaField
+from wtforms.validators import DataRequired ,Length, Email, EqualTo , ValidationError, NumberRange
 from flask_wtf import FlaskForm 
 from flaskapp.models import User
 import os 
-
 
 
 #class
@@ -47,11 +46,20 @@ class LoginForm(FlaskForm):
 	# which is set above
 
 
+class ForgotPasswordForm(FlaskForm):
+	username=StringField('UserName', validators=[DataRequired(),Length(min=4, max=20)])
+	submit=SubmitField('Send me the OTP to reset password')
+
+
+class ResetPasswordForm(FlaskForm):
+	otp=StringField('Enter OTP', validators=[DataRequired(),Length(min=4, max=4)])
+	submit=SubmitField('Reset Password')
 
 
 
 
 
-
-
-
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = TextAreaField('Email', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')

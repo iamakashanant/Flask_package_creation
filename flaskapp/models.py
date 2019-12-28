@@ -1,5 +1,7 @@
 from flaskapp import db, login_manager
 from flask_login import UserMixin
+# from datetime import datetime
+
 
 
 @login_manager.user_loader
@@ -14,10 +16,12 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
+    OTP_over_mail = db.Column(db.Integer)
+    reset_password_till = db.Column(db.TIMESTAMP)
+
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')" 
-
 
 
  
