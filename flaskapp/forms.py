@@ -1,8 +1,12 @@
 from  wtforms import StringField , PasswordField , SubmitField, BooleanField ,TextAreaField
 from wtforms.validators import DataRequired ,Length, Email, EqualTo , ValidationError, NumberRange
+from flask_wtf.file import FileField, FileAllowed
 from flask_wtf import FlaskForm 
 from flaskapp.models import User
 import os 
+from flask_login import current_user
+from PIL import Image
+
 
 
 #class
@@ -61,5 +65,10 @@ class ResetPasswordForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    email = TextAreaField('Email', validators=[Length(min=0, max=140)])
-    submit = SubmitField('Submit')
+    email = StringField('Email', validators=[Length(min=0, max=140)])
+    # picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+	submit = SubmitField('Submit')
+
+
+
+    # submit = SubmitField('Update')

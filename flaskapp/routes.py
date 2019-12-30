@@ -62,10 +62,48 @@ def about_page():
 
 
 
-@app.route('/edit_profile')
+@app.route('/edit_profile', methods=['GET', 'POST'])
 def account():
-	form = EditProfileForm()
+	
+
+	user_name=User.query.filter_by(username=current_user.username).first()
+	user=User.query.get(user_name.id)
+	form = EditProfileForm(obj=user)
+	
+
+
+
+
+
+
 	return render_template('edit_profile.html', form=form)
+
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
+
+
+
+
+
+
+
+
+
+	
+
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -88,7 +126,7 @@ def login():
 		user=User.query.filter_by(email=form.email.data).first()
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
 			login_user(user, remember=form.remember.data)
-			return redirect(url_for("index"))
+			return redirect(url_for("account"))
 		else:
 			flash('Login Unsuccessful. Please check email and password','danger')
 	return render_template('login.html', title ='Login', form=form)
